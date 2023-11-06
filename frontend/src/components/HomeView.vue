@@ -5,24 +5,22 @@
 </template>
 
 <script>
-import axios from 'axios';
+  import fastapi from "../lib/api"
 
-export default {
-  data() {
-    return {
-      questionList: [],
-    };
-  },
-  created() {
+  export default {
+    data() {
+      return {
+        questionList: [],
+      };
+    },
+    created() {
       this.getQuestionList();
-  },
-  methods: {
-    getQuestionList() {
-      axios.get("http://localhost:8000/api/question/list").then(response => {
-        this.questionList = response.data;
-      }).catch(error => {
-        console.log(error);
-      });
+    },
+    methods: {
+      getQuestionList() {
+        fastapi('get', '/api/question/list', {}, (json) => {
+            this.questionList = json
+        });
     },
   },
 };
