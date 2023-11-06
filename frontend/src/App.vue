@@ -1,5 +1,7 @@
 <template>
-  <h1>{{ message }}</h1>
+  <ul>
+    <li v-for="question in questionList" :key="question.id">{{ question.subject }}</li>
+  </ul>
 </template>
 
 <script>
@@ -8,17 +10,20 @@ import axios from 'axios';
 export default {
   data() {
     return {
-      message: '',
+      questionList: [],
     };
   },
-  mounted() {
-    axios.get('http://localhost:8000/hello')
-      .then(response => {
-        this.message = response.data.message;
-      })
-      .catch(error => {
+  created() {
+      this.getQuestionList();
+  },
+  methods: {
+    getQuestionList() {
+      axios.get("http://192.168.10.2:8000/api/question/list").then(response => {
+        this.questionList = response.data;
+      }).catch(error => {
         console.log(error);
       });
+    },
   },
 };
 </script>
