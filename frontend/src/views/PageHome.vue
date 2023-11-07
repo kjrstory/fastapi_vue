@@ -1,19 +1,25 @@
-<!-- PageHome.vue -->
 <template>
-  <div class="home">
-    <HomeView/>
-  </div>
+  <ul>
+    <li v-for="question in questionList" :key="question.id">
+      <router-link :to="'/detail/' + question.id">{{ question.subject }}</router-link>
+    </li>
+  </ul>
 </template>
 
 <script>
-// @ is an alias to /src
-import HomeView from '@/components/HomeView.vue'
+
+import fastapi from '../lib/api';
 
 export default {
-  name: 'PageHome',
-  components: {
-    HomeView
+  data() {
+    return {
+      questionList: []
+    };
+  },
+  created() {
+    fastapi('get', '/api/question/list', {}, (json) => {
+      this.questionList = json;
+    });
   }
 }
 </script>
-
