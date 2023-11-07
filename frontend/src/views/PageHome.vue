@@ -18,6 +18,9 @@
     </tr>
     </tbody>
     </table>
+    <div class="d-flex justify-content-start">
+      <router-link to="/question-create" class="btn btn-primary">질문 등록하기</router-link>
+    </div>  
 </div>    
 </template>
 

@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import PageHome from '@/views/PageHome.vue'
 import PageDetail from '@/views/PageDetail.vue'
+import QuestionCreate from '@/views/QuestionCreate.vue'
 
 const routes = [
   {
@@ -13,6 +14,11 @@ const routes = [
     name: 'PageDetail',
     component: PageDetail,
     props: true  
+  },
+  {
+    path: '/question-create',
+    name: 'QuestionCreate',
+    component: QuestionCreate
   }
 ]
 
