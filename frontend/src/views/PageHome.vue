@@ -46,12 +46,14 @@
     data() {
       return {
         questionList: [],
-        page: 0,
         size: 10,
         total: 0,
       };
     },
     computed: {
+      page() {
+        return this.$store.state.page;
+      },  
       totalPage() {
         return Math.ceil(this.total / this.size);
       },
@@ -64,13 +66,13 @@
             size: this.size}
         fastapi('get', url, params, (json) => {
           this.questionList = json.question_list;
-          this.page = _page;
+          this.$store.dispatch('setPage',_page);
           this.total = json.total;
         });
       }
     },
     created() {
-      this.getQuestionList(0);
+      this.getQuestionList(this.$store.getters.getPage);
     }
   }
 </script>

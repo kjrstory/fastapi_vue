@@ -12,6 +12,13 @@
             </div>
         </div>
     </div>
+
+    <div class="mt-4">
+      <router-link to="/" class="btn btn-secondary">
+        목록으로
+      </router-link>
+    </div>
+
     <!-- 답변 목록 -->
     <h5 class="border-bottom my-3 py-2">{{question.answers.length}}개의 답변이 있습니다.</h5>
     <div v-for="answer in question.answers" :key="answer.id" class="card my-3">

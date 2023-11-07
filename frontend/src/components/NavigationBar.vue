@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
-      <router-link to="/" class="navbar-brand">Pybo</router-link>
+      <router-link to="/" class="navbar-brand" @click="setPage(0)">Pybo</router-link>
       <button 
         class="navbar-toggler" 
         type="button" 
@@ -25,3 +25,13 @@
     </div>
   </nav>
 </template>
+
+<script>
+export default {
+  methods: {
+    setPage(page) {
+      this.$store.dispatch('setPage', page);
+    }
+  }
+}
+</script>
