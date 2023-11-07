@@ -24,6 +24,12 @@ const fastapi = (operation, url, params, success_callback, failure_callback) => 
 
     axios(_url, options)
       .then(response => {
+         if(response.status === 204) {  // No content
+           if(success_callback) {
+               success_callback()
+           }
+           return
+         } 
          if (response.status >= 200 && response.status < 300) {
             if (success_callback) {
                 success_callback(response.data)
