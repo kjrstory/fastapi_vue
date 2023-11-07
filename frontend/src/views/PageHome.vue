@@ -1,19 +1,28 @@
-<!-- PageHome.vue -->
 <template>
-  <div class="home">
-    <HomeView/>
-  </div>
+  <ul>
+    <li v-for="question in questionList" :key="question.id">{{ question.subject }}</li>
+  </ul>
 </template>
 
 <script>
-// @ is an alias to /src
-import HomeView from '@/components/HomeView.vue'
-
+import axios from 'axios';
 export default {
-  name: 'PageHome',
-  components: {
-    HomeView
-  }
-}
+  data() {
+    return {
+      questionList: [],
+    };
+  },
+  created() {
+      this.getQuestionList();
+  },
+  methods: {
+    getQuestionList() {
+      axios.get("http://localhost:8000/api/question/list").then(response => {
+        this.questionList = response.data;
+      }).catch(error => {
+        console.log(error);
+      });
+    },
+  },
+};
 </script>
-
