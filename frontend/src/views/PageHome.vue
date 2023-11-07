@@ -1,9 +1,24 @@
 <template>
-  <ul>
-    <li v-for="question in questionList" :key="question.id">
-      <router-link :to="'/detail/' + question.id">{{ question.subject }}</router-link>
-    </li>
-  </ul>
+<div class="container my-3">
+    <table class="table">
+        <thead>
+        <tr class="table-dark">
+            <th>번호</th>
+            <th>제목</th>
+            <th>작성일시</th>
+        </tr>
+        </thead>
+    <tbody>
+    <tr v-for="(question,i) in questionList" :key="question.id">
+      <td>{{ i+1 }}</td>
+      <td>
+        <router-link :to="'/detail/' + question.id">{{ question.subject }}</router-link>
+      </td>
+      <td>{{question.create_date}}</td>
+    </tr>
+    </tbody>
+    </table>
+</div>    
 </template>
 
 <script>
