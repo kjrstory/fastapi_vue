@@ -1,19 +1,27 @@
-<!-- PageHome.vue -->
 <template>
-  <div class="home">
-    <HomeView/>
-  </div>
+  <ul>
+    <li v-for="question in questionList" :key="question.id">{{ question.subject }}</li>
+  </ul>
 </template>
 
 <script>
-// @ is an alias to /src
-import HomeView from '@/components/HomeView.vue'
+  import fastapi from "../lib/api"
 
-export default {
-  name: 'PageHome',
-  components: {
-    HomeView
-  }
-}
+  export default {
+    data() {
+      return {
+        questionList: [],
+      };
+    },
+    created() {
+      this.getQuestionList();
+    },
+    methods: {
+      getQuestionList() {
+        fastapi('get', '/api/question/list', {}, (json) => {
+            this.questionList = json
+        });
+    },
+  },
+};
 </script>
-
