@@ -53,3 +53,12 @@ export default {
   }
 }
 </script>
+
+<style>
+    textarea {
+        width:100%;
+    }
+    input[type=submit] {
+        margin-top:10px;
+    }
+</style>
