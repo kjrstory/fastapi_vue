@@ -10,7 +10,7 @@
         </thead>
     <tbody>
     <tr v-for="(question,i) in questionList" :key="question.id">
-      <td>{{ i+1 }}</td>
+      <td>{{ total - page * size - i }}</td>
       <td>
         <router-link :to="'/detail/' + question.id">{{ question.subject }}</router-link>
       </td>
