@@ -14,10 +14,13 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <router-link to="/user-create" class="nav-link">회원가입</router-link>
+          <li class="nav-item" v-if="is_login">
+             <a class="nav-link" href="/user-login" @click.prevent="logoutUser">로그아웃 ({{ username }})</a>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!is_login">
+            <router-link to="/user-create" class="nav-link">회원가입</router-link>
+          </li>  
+          <li class="nav-item" v-if="!is_login">  
             <router-link to="/user-login" class="nav-link">로그인</router-link>
           </li>
         </ul>
@@ -28,9 +31,22 @@
 
 <script>
 export default {
+  computed: {
+      is_login() {
+        return this.$store.state.is_login;
+      },
+      username() {
+        return this.$store.state.username;
+      },
+  },
   methods: {
     setPage(page) {
       this.$store.dispatch('setPage', page);
+    },
+    logoutUser() {
+      this.$store.dispatch("setAccessToken", "")
+      this.$store.dispatch("setUsername", "")
+      this.$store.dispatch("setIsLogin", false)
     }
   }
 }

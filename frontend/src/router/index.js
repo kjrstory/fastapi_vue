@@ -3,6 +3,7 @@ import PageHome from '@/views/PageHome.vue'
 import PageDetail from '@/views/PageDetail.vue'
 import QuestionCreate from '@/views/QuestionCreate.vue'
 import UserCreate from "@/views/UserCreate.vue"
+import UserLogin from "@/views/UserLogin.vue"
 
 const routes = [
   {
@@ -25,7 +26,12 @@ const routes = [
     path: '/user-create',
     name: 'UserCreate',
     component: UserCreate
-  }
+  },
+  {
+    path: '/user-login',
+    name: 'UserLogin',
+    component: UserLogin
+  },
 ]
 
 const router = createRouter({
