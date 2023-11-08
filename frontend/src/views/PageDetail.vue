@@ -6,12 +6,22 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;">{{question.content}}</div>
             <div class="d-flex justify-content-end">
+                <div v-if="question.modify_date" class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">modified at</div>
+                    <div>{{ formatDate(question.modify_date) }}</div>
+                </div>
+
                 <div class="badge bg-light text-dark p-2 text-start">
                     <div class="mb-2" v-if="question.user">{{ question.user.username }}</div>
                     <div class="mb-2" v-else></div>
                     <div>{{ formatDate(question.create_date) }}</div>
                 </div>
             </div>
+            <div class="my-3" v-if="question.user && this.$store.state.username === question.user.username">
+               <router-link :to="'/question-modify/' + question.id" class="btn btn-sm btn-outline-secondary">수정</router-link>
+               <button class="btn btn-sm btn-outline-secondary" @click="deleteQuestion(question.id)">삭제</button>
+            </div>
+
         </div>
     </div>
 
@@ -27,12 +37,21 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;">{{answer.content}}</div>
             <div class="d-flex justify-content-end">
+                <div v-if="answer.modify_date" class="badge bg-light text-dark p-2 text-start mx-3">
+                    <div class="mb-2">modified at</div>
+                    <div>{{ formatDate(answer.modify_date) }}</div>
+                </div>
                 <div class="badge bg-light text-dark p-2 text-start">
                    <div class="mb-2" v-if="answer.user">{{ answer.user.username }}</div>
                    <div class="mb-2" v-else></div>
                    <div>{{ formatDate(question.create_date) }}</div>
                 </div>
             </div>
+            <div class="my-3" v-if="answer.user && this.$store.state.username === answer.user.username">
+               <router-link :to="'/answer-modify/' + answer.id" class="btn btn-sm btn-outline-secondary">수정</router-link>
+               <button class="btn btn-sm btn-outline-secondary" @click="deleteAnswer(answer.id)">삭제</button>
+            </div>
+
         </div>
     </div>
     <!-- 답변 등록 -->
@@ -93,6 +112,28 @@ export default {
     },
     formatDate(date) {
       return moment(date).format('YYYY년 MM월 DD일 HH:mm:ss');
+    },
+    deleteQuestion(question_id) {
+      if(confirm('정말로 삭제하시겠습니까?')) {
+        let url = "/api/question/delete";
+        let params = {
+          question_id: question_id
+        }
+        fastapi('delete', url, params, () => {
+          this.$router.push("/")
+        })    
+      }
+    },
+    deleteAnswer(answer_id) {
+      if(confirm('정말로 삭제하시겠습니까?')) {
+        let url = "/api/answer/delete";
+        let params = {
+          answer_id: answer_id
+        }
+        fastapi('delete', url, params, () => {
+            this.getQuestion()
+        })
+      }
     }
   },  
   created() {

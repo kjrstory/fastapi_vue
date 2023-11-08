@@ -4,6 +4,8 @@ import PageDetail from '@/views/PageDetail.vue'
 import QuestionCreate from '@/views/QuestionCreate.vue'
 import UserCreate from "@/views/UserCreate.vue"
 import UserLogin from "@/views/UserLogin.vue"
+import QuestionModify from "@/views/QuestionModify.vue"
+import AnswerModify from "@/views/AnswerModify.vue"
 
 const routes = [
   {
@@ -31,6 +33,18 @@ const routes = [
     path: '/user-login',
     name: 'UserLogin',
     component: UserLogin
+  },
+  {
+    path: '/question-modify/:question_id',
+    name: 'QuestionModify',
+    component: QuestionModify,
+    props: true
+  },
+  {
+    path: '/answer-modify/:answer_id',
+    name: 'AnswerModify',
+    component: AnswerModify,
+    props: true
   },
 ]
 
