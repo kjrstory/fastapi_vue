@@ -95,7 +95,7 @@ export default {
   },
   data() {
     return {
-      question: { answers: [] },
+      question: { answers: [], voter:[] },
       content: "",
     };
   },
