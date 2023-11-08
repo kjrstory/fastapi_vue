@@ -17,6 +17,12 @@
                     <div>{{ formatDate(question.create_date) }}</div>
                 </div>
             </div>
+
+            <button class="btn btn-sm btn-outline-secondary" @click="voteQuestion(question.id)">
+               추천
+               <span class="badge rounded-pill bg-success">{{ question.voter.length }}</span>
+            </button>
+
             <div class="my-3" v-if="question.user && this.$store.state.username === question.user.username">
                <router-link :to="'/question-modify/' + question.id" class="btn btn-sm btn-outline-secondary">수정</router-link>
                <button class="btn btn-sm btn-outline-secondary" @click="deleteQuestion(question.id)">삭제</button>
@@ -47,6 +53,12 @@
                    <div>{{ formatDate(question.create_date) }}</div>
                 </div>
             </div>
+
+            <button class="btn btn-sm btn-outline-secondary" @click="voteAnswer(answer.id)">
+               추천
+               <span class="badge rounded-pill bg-success">{{ answer.voter.length }}</span>
+            </button>
+
             <div class="my-3" v-if="answer.user && this.$store.state.username === answer.user.username">
                <router-link :to="'/answer-modify/' + answer.id" class="btn btn-sm btn-outline-secondary">수정</router-link>
                <button class="btn btn-sm btn-outline-secondary" @click="deleteAnswer(answer.id)">삭제</button>
@@ -131,6 +143,29 @@ export default {
           answer_id: answer_id
         }
         fastapi('delete', url, params, () => {
+            this.getQuestion()
+        })
+      }
+    },
+
+    voteQuestion(question_id) {
+      if(confirm('정말로 추천하시겠습니까?')) {
+        let url = "/api/question/vote";
+        let params = {
+          question_id: question_id
+        }
+        fastapi('post', url, params, () => {
+            this.getQuestion()
+        })
+      }
+    },
+    voteAnswer(answer_id) {
+      if(confirm('정말로 추천하시겠습니까?')) {
+        let url = "/api/answer/vote";
+        let params = {
+          answer_id: answer_id
+        }
+        fastapi('post', url, params, () => {
             this.getQuestion()
         })
       }
