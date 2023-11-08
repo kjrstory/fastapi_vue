@@ -13,6 +13,7 @@
       <td>{{ total - page * size - i }}</td>
       <td>
         <router-link :to="'/detail/' + question.id">{{ question.subject }}</router-link>
+        <span v-if="question.answers.length > 0" class="text-danger small mx-2">{{question.answers.length}}</span>
       </td>
       <td>{{ formatDate(question.create_date) }}</td>
     </tr>
