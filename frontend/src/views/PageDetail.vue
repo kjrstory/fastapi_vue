@@ -32,11 +32,11 @@
         </div>
     </div>
     <!-- 답변 등록 -->
-    <form method="post" class="my-3">
-        <div class="mb-3">
-            <textarea rows="10" bind:value={content} class="form-control" />
-        </div>
-        <input type="submit" value="답변등록" class="btn btn-primary" on:click="{post_answer}" />
+    <form @submit.prevent="postAnswer" class="my-3">
+      <div class="mb-3">
+        <textarea rows="10" v-model="content" class="form-control"></textarea>
+      </div>
+      <input type="submit" value="답변등록" class="btn btn-primary">
     </form>
 </div>
   
