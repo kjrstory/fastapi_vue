@@ -6,8 +6,10 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;">{{question.content}}</div>
             <div class="d-flex justify-content-end">
-                <div class="badge bg-light text-dark p-2">
-                    {{ formatDate(question.create_date) }}
+                <div class="badge bg-light text-dark p-2 text-start">
+                    <div class="mb-2" v-if="question.user">{{ question.user.username }}</div>
+                    <div class="mb-2" v-else></div>
+                    <div>{{ formatDate(question.create_date) }}</div>
                 </div>
             </div>
         </div>
@@ -25,8 +27,10 @@
         <div class="card-body">
             <div class="card-text" style="white-space: pre-line;">{{answer.content}}</div>
             <div class="d-flex justify-content-end">
-                <div class="badge bg-light text-dark p-2">
-                    {{ formatDate(question.create_date) }}
+                <div class="badge bg-light text-dark p-2 text-start">
+                   <div class="mb-2" v-if="answer.user">{{ answer.user.username }}</div>
+                   <div class="mb-2" v-else></div>
+                   <div>{{ formatDate(question.create_date) }}</div>
                 </div>
             </div>
         </div>

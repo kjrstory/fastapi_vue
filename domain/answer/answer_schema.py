@@ -1,6 +1,8 @@
 import datetime
 
 from pydantic import BaseModel, field_validator
+from domain.user.user_schema import User
+from typing import Optional
 
 
 class AnswerCreate(BaseModel):
@@ -16,4 +18,5 @@ class AnswerCreate(BaseModel):
 class Answer(BaseModel):
     id: int
     content: str
-    create_date: datetime.datetime    
+    create_date: datetime.datetime
+    user: Optional[User] = None
