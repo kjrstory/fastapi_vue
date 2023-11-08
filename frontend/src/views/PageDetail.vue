@@ -7,7 +7,7 @@
             <div class="card-text" style="white-space: pre-line;">{{question.content}}</div>
             <div class="d-flex justify-content-end">
                 <div class="badge bg-light text-dark p-2">
-                    {{question.create_date}}
+                    {{ formatDate(question.create_date) }}
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
             <div class="card-text" style="white-space: pre-line;">{{answer.content}}</div>
             <div class="d-flex justify-content-end">
                 <div class="badge bg-light text-dark p-2">
-                    {{answer.create_date}}
+                    {{ formatDate(question.create_date) }}
                 </div>
             </div>
         </div>
@@ -44,6 +44,10 @@
 
 <script>
 import fastapi from '../lib/api';
+import moment from 'moment';
+import 'moment/locale/ko';
+
+moment.locale('ko')
 
 export default {
   props: {
@@ -77,6 +81,9 @@ export default {
        },
       )
     },
+    formatDate(date) {
+      return moment(date).format('YYYY년 MM월 DD일 HH:mm:ss');
+    }
   },  
   created() {
     this.getQuestion();

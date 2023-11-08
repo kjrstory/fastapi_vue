@@ -14,7 +14,7 @@
       <td>
         <router-link :to="'/detail/' + question.id">{{ question.subject }}</router-link>
       </td>
-      <td>{{question.create_date}}</td>
+      <td>{{ formatDate(question.create_date) }}</td>
     </tr>
     </tbody>
     </table>
@@ -41,6 +41,9 @@
 
 <script>
   import fastapi from '../lib/api';
+  import moment from 'moment'
+  import 'moment/locale/ko'
+  moment.locale('ko')
 
   export default {
     data() {
@@ -69,6 +72,9 @@
           this.$store.dispatch('setPage',_page);
           this.total = json.total;
         });
+      },
+      formatDate(date) {
+        return moment(date).format('YYYY년 MM월 DD일 HH:mm:ss');
       }
     },
     created() {
