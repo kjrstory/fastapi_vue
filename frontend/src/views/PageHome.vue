@@ -35,7 +35,7 @@
     </ul>
     <!-- 페이징처리 끝 -->
     <div class="d-flex justify-content-start">
-      <router-link to="/question-create" class="btn btn-primary">질문 등록하기</router-link>
+      <router-link to="/question-create" class="btn btn-primary" :class="{ 'disabled': !is_login }">질문 등록하기</router-link>
     </div>  
 </div>    
 </template>
@@ -55,6 +55,9 @@
       };
     },
     computed: {
+      is_login() {
+        return this.$store.state.is_login;
+      },
       page() {
         return this.$store.state.page;
       },  

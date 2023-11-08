@@ -1,5 +1,7 @@
 import qs from "qs"
 import axios from 'axios'
+import store from '../store'
+import router from '../router'
 
 const fastapi = (operation, url, params, success_callback, failure_callback) => {
 
@@ -25,6 +27,11 @@ const fastapi = (operation, url, params, success_callback, failure_callback) => 
       }
     }
 
+    const _access_token = store.state.access_token;
+    if (_access_token) {
+      options.headers["Authorization"] = "Bearer " + _access_token
+    }
+
     if (method !== 'get') {
        options['data'] = body
     }
@@ -41,6 +48,13 @@ const fastapi = (operation, url, params, success_callback, failure_callback) => 
             if (success_callback) {
                 success_callback(response.data)
             }
+         } else if(operation !== 'login' && response.status === 401) {
+      // token time out
+           store.dispatch("setAccessToken", "")
+           store.dispatch("setUsername", "")
+           store.dispatch("setIsLogin", false)
+           alert("로그인이 필요합니다.")
+           router.push('/user-login')  
          } else {
             response.json()
                 .then(json => {

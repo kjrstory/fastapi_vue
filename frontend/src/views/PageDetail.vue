@@ -34,9 +34,11 @@
     <!-- 답변 등록 -->
     <form @submit.prevent="postAnswer" class="my-3">
       <div class="mb-3">
-        <textarea rows="10" v-model="content" class="form-control"></textarea>
+        <textarea rows="10" v-model="content" 
+               class="form-control"
+               :class="{ 'disabled': !is_login }"></textarea>
       </div>
-      <input type="submit" value="답변등록" class="btn btn-primary">
+      <input type="submit" value="답변등록" class="btn btn-primary" :class="{ 'disabled': !is_login }">
     </form>
 </div>
   
@@ -61,6 +63,11 @@ export default {
       question: { answers: [] },
       content: "",
     };
+  },
+  computed: {
+      is_login() {
+        return this.$store.state.is_login;
+      }
   },
   methods: {
     getQuestion() {
