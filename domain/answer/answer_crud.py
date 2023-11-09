@@ -35,6 +35,7 @@ def delete_answer(db: Session, db_answer: Answer):
 
 def vote_answer(db: Session, db_answer: Answer, db_user: User):
     db_answer.voter.append(db_user)
+    db_answer.voter_count = db_answer.voter_count + 1
     db.commit()
 
 
