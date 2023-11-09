@@ -38,7 +38,16 @@
     </div>
 
     <!-- 답변 목록 -->
-    <h5 class="border-bottom my-3 py-2">{{total}}개의 답변이 있습니다.</h5>
+    <div class="row">
+     <div class="col-6">
+      <h5 class="border-bottom my-3 py-2 mb-0">{{total}}개의 답변이 있습니다.</h5>
+     </div>
+     <div class="col-6 d-flex justify-content-end align-items-center">
+      <button class="btn mr-2 btn-outline-primary" @click="sort_by='voter_count';desc=true;getAnswerList(0)">추천순</button>
+      <button class="btn btn-outline-primary" @click="sort_by='create_date';desc=true;getAnswerList(0)">최신순</button>
+      <button class="btn btn-outline-primary" @click="sort_by='create_date';desc=false;getAnswerList(0)">오래된순</button>
+     </div>
+    </div>
     <div v-for="answer in answerList" :key="answer.id" class="card my-3">
         <div class="card-body">
             <div class="card-text" v-html="markContent(answer.content)"></div>
@@ -118,7 +127,9 @@ export default {
       answerList: [],
       size: 5,
       total: 0,
-      page: 0
+      page: 0,
+      sort_by: "create_date",
+      desc: true
     };
   },
   computed: {
@@ -202,7 +213,10 @@ export default {
       let params = { 
           question_id: this.question_id,
           page: _page,
-          size: this.size}
+          size: this.size,
+          sort_by: this.sort_by,
+          desc: this.desc
+      }
       fastapi('get', url, params, (json) => {
         this.answerList = json.answer_list;
         this.page = _page,

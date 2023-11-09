@@ -77,12 +77,15 @@ def answer_vote(_answer_vote: answer_schema.AnswerVote,
 @router.get("/list", response_model=answer_schema.AnswerList)
 def answer_list(question_id: int,
                 db: Session = Depends(get_db),
+                sort_by: str = 'create_date',
+                desc: bool = True,
                 page: int = 0, size: int = 10):
     question = question_crud.get_question(db, question_id=question_id)
     if not question:
         raise HTTPException(status_code=404, detail="Question not found")
     total, _answer_list = answer_crud.get_answer_list(
                           db, question_id = question_id,
+                          sort_by=sort_by, desc=desc,
                           skip=page*size, limit=size)
     return {
             'total': total,
