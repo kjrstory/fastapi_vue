@@ -1,2 +1,6 @@
 frontend/node_modules
 __pycache__
+myapi.db
+migrations
+alembic.ini
+.env
