@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
     <div class="container-fluid">
-      <router-link to="/" class="navbar-brand" @click="setPage(0)">Pybo</router-link>
+      <router-link to="/" class="navbar-brand" @click="this.$store.dispatch('setKeyword', '');this.$store.dispatch('setPage', 0)">Pybo</router-link>
       <button 
         class="navbar-toggler" 
         type="button" 

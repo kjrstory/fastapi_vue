@@ -8,7 +8,8 @@ const store = createStore({
     page: 0,
     access_token: "",
     username: "",
-    is_login: false 
+    is_login: false,
+    keyword: ""
   },
   mutations: {
     setPage(state, payload) {
@@ -22,6 +23,9 @@ const store = createStore({
     },
     setIsLogin(state, is_login) {
       state.is_login = is_login
+    },
+    setKeyword(state, keyword) {
+      state.keyword = keyword
     }
   },
   actions: {
@@ -36,6 +40,9 @@ const store = createStore({
     },
     setIsLogin(context, payload) {
       context.commit('setIsLogin', payload)
+    },
+    setKeyword(context, payload) {
+      context.commit('setKeyword', payload)
     }
   },
   getters: {

@@ -1,5 +1,20 @@
 <template>
 <div class="container my-3">
+    <div class="row my-3">
+      <div class="col-6">
+       <a href="/question-create" class="btn btn-primary" :class="{ disabled: !is_login }">
+         질문 등록하기
+       </a>
+     </div>
+     <div class="col-6">
+       <div class="input-group">
+         <input type="text" class="form-control" v-model="kw">
+         <button class="btn btn-outline-secondary" @click="this.$store.dispatch('setKeyword', kw);this.$store.dispatch('setPage', 0)">
+           찾기
+         </button>
+       </div>
+      </div>
+    </div>
     <table class="table">
         <thead>
         <tr class="text-center table-dark">
@@ -25,21 +40,18 @@
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
       <li class="page-item" :class="{ disabled: page <= 0 }">
-        <button class="page-link" @click="getQuestionList(page - 1)">이전</button>
+        <button class="page-link" @click="this.$store.dispatch('setPage', page - 1)">이전</button>
       </li>
       <template v-for="(value, index) in Array.from({ length: totalPage })" :key="index">
         <li class="page-item" v-if="index >= page - 5 && index <= page + 5" :class="{ active: index === page }">
-          <button class="page-link" @click="getQuestionList(index)">{{ index + 1 }}</button>
+          <button class="page-link" @click="this.$store.dispatch('setPage', index)">{{ index + 1 }}</button>
         </li>
       </template>
       <li class="page-item" :class="{ disabled: page >= totalPage - 1 }">
-        <button class="page-link" @click="getQuestionList(page + 1)">다음</button>
+        <button class="page-link" @click="this.$store.dispatch('setPage', page + 1)">다음</button>
       </li>
     </ul>
     <!-- 페이징처리 끝 -->
-    <div class="d-flex justify-content-start">
-      <router-link to="/question-create" class="btn btn-primary" :class="{ 'disabled': !is_login }">질문 등록하기</router-link>
-    </div>  
 </div>    
 </template>
 
@@ -55,6 +67,7 @@
         questionList: [],
         size: 10,
         total: 0,
+        kw :''
       };
     },
     computed: {
@@ -64,28 +77,41 @@
       page() {
         return this.$store.state.page;
       },  
+      keyword() {
+        return this.$store.state.keyword;
+      },
       totalPage() {
         return Math.ceil(this.total / this.size);
       },
     },
     methods: {
-      getQuestionList(_page) {
+      getQuestionList() {
         let url = "/api/question/list"
         let params = { 
-            page: _page,
-            size: this.size}
+            page: this.page,
+            size: this.size,
+            keyword: this.keyword
+        }
         fastapi('get', url, params, (json) => {
           this.questionList = json.question_list;
-          this.$store.dispatch('setPage',_page);
           this.total = json.total;
+          this.kw = this.keyword
         });
       },
       formatDate(date) {
         return moment(date).format('YYYY년 MM월 DD일 HH:mm:ss');
       }
     },
+    watch: {
+      page() {
+        this.getQuestionList();
+      },
+      keyword() {
+        this.getQuestionList();
+      }
+    },
     created() {
-      this.getQuestionList(this.$store.getters.getPage);
+      this.getQuestionList();
     }
   }
 </script>
