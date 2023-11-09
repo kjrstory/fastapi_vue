@@ -43,9 +43,18 @@
       <h5 class="border-bottom my-3 py-2 mb-0">{{total}}개의 답변이 있습니다.</h5>
      </div>
      <div class="col-6 d-flex justify-content-end align-items-center">
-      <button class="btn mr-2 btn-outline-primary" @click="sort_by='voter_count';desc=true;getAnswerList(0)">추천순</button>
-      <button class="btn btn-outline-primary" @click="sort_by='create_date';desc=true;getAnswerList(0)">최신순</button>
-      <button class="btn btn-outline-primary" @click="sort_by='create_date';desc=false;getAnswerList(0)">오래된순</button>
+      <button class="btn mr-2 btn-outline-primary" 
+              :class="{ active: sort_by === 'voter_count'}"
+              @click="this.$store.dispatch('setSortBy', 'voter_count');
+                      this.$store.dispatch('setDesc', true)">추천순</button>
+      <button class="btn btn-outline-primary" 
+              :class="{ active: sort_by === 'create_date' && desc === true}"
+              @click="this.$store.dispatch('setSortBy', 'create_date');
+                      this.$store.dispatch('setDesc', true)">최신순</button>
+      <button class="btn btn-outline-primary" 
+              :class="{ active: sort_by === 'create_date' && desc === false}"
+              @click="this.$store.dispatch('setSortBy', 'create_date');
+                      this.$store.dispatch('setDesc', false)">오래된순</button>
      </div>
     </div>
     <div v-for="answer in answerList" :key="answer.id" class="card my-3">
@@ -78,16 +87,16 @@
 
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
-      <li class="page-item" :class="{ disabled: page <= 0 }">
-        <button class="page-link" @click="getAnswerList(page - 1)">이전</button>
+      <li class="page-item" :class="{ disabled: answer_page <= 0 }">
+        <button class="page-link" @click="this.$store.dispatch('setAnswerPage', answer_page - 1)">이전</button>
       </li>
       <template v-for="(value, index) in Array.from({ length: totalPage })" :key="index">
-        <li class="page-item" v-if="index >= page - 5 && index <= page + 5" :class="{ active: index === page }">
-          <button class="page-link" @click="getAnswerList(index)">{{ index + 1 }}</button>
+        <li class="page-item" v-if="index >= answer_page - 5 && index <= answer_page + 5" :class="{ active: index === answer_page }">
+          <button class="page-link" @click="this.$store.dispatch('setAnswerPage', index)">{{ index + 1 }}</button>
         </li>
       </template>
-      <li class="page-item" :class="{ disabled: page >= totalPage - 1 }">
-        <button class="page-link" @click="getAnswerList(page+1)">다음</button>
+      <li class="page-item" :class="{ disabled: answer_page >= totalPage - 1 }">
+        <button class="page-link" @click="this.$store.dispatch('setAnswerPage', answer_page + 1)">다음</button>
       </li>
     </ul>
     <!-- 페이징처리 끝 -->
@@ -127,9 +136,6 @@ export default {
       answerList: [],
       size: 5,
       total: 0,
-      page: 0,
-      sort_by: "create_date",
-      desc: true
     };
   },
   computed: {
@@ -141,6 +147,15 @@ export default {
       },
       totalPage() {
         return Math.ceil(this.total / this.size);
+      },
+      answer_page() { 
+          return this.$store.state.answer_page 
+      },
+      sort_by() { 
+          return this.$store.state.sort_by 
+      },
+      desc() {
+           return this.$store.state.desc 
       },
   },
   methods: {
@@ -208,25 +223,38 @@ export default {
         })
       }
     },
-    getAnswerList(_page) {
+    getAnswerList() {
       let url = "/api/answer/list"
       let params = { 
           question_id: this.question_id,
-          page: _page,
+          page: this.answer_page,
           size: this.size,
           sort_by: this.sort_by,
           desc: this.desc
       }
       fastapi('get', url, params, (json) => {
         this.answerList = json.answer_list;
-        this.page = _page,
         this.total = json.total;
       });
     },
   },  
+  watch: {
+    answer_page() {
+        this.getAnswerList();
+    },
+    sort_by() {
+        this.getAnswerList();
+    },
+    desc() {
+        this.getAnswerList();
+    }
+  },
   created() {
     this.getQuestion();
-    this.getAnswerList(0);
+    this.$store.dispatch('setAnswerPage', 0)
+    this.$store.dispatch('setSortBy', 'create_date');
+    this.$store.dispatch('setDesc', true)
+    this.getAnswerList();
   }
 }
 </script>

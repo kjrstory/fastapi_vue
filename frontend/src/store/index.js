@@ -9,7 +9,10 @@ const store = createStore({
     access_token: "",
     username: "",
     is_login: false,
-    keyword: ""
+    keyword: "",
+    answer_page: 0,
+    sort_by: 'create_date',
+    desc: true,
   },
   mutations: {
     setPage(state, payload) {
@@ -26,7 +29,16 @@ const store = createStore({
     },
     setKeyword(state, keyword) {
       state.keyword = keyword
-    }
+    },
+    setAnswerPage(state, answer_page) {
+      state.answer_page = answer_page
+    },
+    setSortBy(state, sort_by) {
+      state.sort_by = sort_by
+    },
+    setDesc(state, desc) {
+      state.desc = desc
+    },
   },
   actions: {
     setPage(context, payload) {
@@ -43,7 +55,16 @@ const store = createStore({
     },
     setKeyword(context, payload) {
       context.commit('setKeyword', payload)
-    }
+    },
+    setAnswerPage(context, payload) {
+      context.commit('setAnswerPage', payload)
+    },
+    setSortBy(context, payload) {
+      context.commit('setSortBy', payload)
+    },
+    setDesc(context, payload) {
+      context.commit('setDesc', payload)
+    },
   },
   getters: {
     getPage: (state) => state.page,
