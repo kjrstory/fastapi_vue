@@ -38,8 +38,8 @@
     </div>
 
     <!-- 답변 목록 -->
-    <h5 class="border-bottom my-3 py-2">{{question.answers.length}}개의 답변이 있습니다.</h5>
-    <div v-for="answer in question.answers" :key="answer.id" class="card my-3">
+    <h5 class="border-bottom my-3 py-2">{{total}}개의 답변이 있습니다.</h5>
+    <div v-for="answer in answerList" :key="answer.id" class="card my-3">
         <div class="card-body">
             <div class="card-text" v-html="markContent(answer.content)"></div>
             <div class="d-flex justify-content-end">
@@ -66,6 +66,23 @@
 
         </div>
     </div>
+
+    <!-- 페이징처리 시작 -->
+    <ul class="pagination justify-content-center">
+      <li class="page-item" :class="{ disabled: page <= 0 }">
+        <button class="page-link" @click="getAnswerList(page - 1)">이전</button>
+      </li>
+      <template v-for="(value, index) in Array.from({ length: totalPage })" :key="index">
+        <li class="page-item" v-if="index >= page - 5 && index <= page + 5" :class="{ active: index === page }">
+          <button class="page-link" @click="getAnswerList(index)">{{ index + 1 }}</button>
+        </li>
+      </template>
+      <li class="page-item" :class="{ disabled: page >= totalPage - 1 }">
+        <button class="page-link" @click="getAnswerList(page+1)">다음</button>
+      </li>
+    </ul>
+    <!-- 페이징처리 끝 -->
+
     <!-- 답변 등록 -->
     <form @submit.prevent="postAnswer" class="my-3">
       <div class="mb-3">
@@ -98,6 +115,10 @@ export default {
     return {
       question: { answers: [], voter:[], content:''  },
       content: "",
+      answerList: [],
+      size: 5,
+      total: 0,
+      page: 0
     };
   },
   computed: {
@@ -106,6 +127,9 @@ export default {
       },
       markContent() {
         return (content) => parse(content);
+      },
+      totalPage() {
+        return Math.ceil(this.total / this.size);
       },
   },
   methods: {
@@ -151,7 +175,6 @@ export default {
         })
       }
     },
-
     voteQuestion(question_id) {
       if(confirm('정말로 추천하시겠습니까?')) {
         let url = "/api/question/vote";
@@ -173,10 +196,23 @@ export default {
             this.getQuestion()
         })
       }
-    }
+    },
+    getAnswerList(_page) {
+      let url = "/api/answer/list"
+      let params = { 
+          question_id: this.question_id,
+          page: _page,
+          size: this.size}
+      fastapi('get', url, params, (json) => {
+        this.answerList = json.answer_list;
+        this.page = _page,
+        this.total = json.total;
+      });
+    },
   },  
   created() {
     this.getQuestion();
+    this.getAnswerList(0);
   }
 }
 </script>

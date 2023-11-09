@@ -36,3 +36,14 @@ def delete_answer(db: Session, db_answer: Answer):
 def vote_answer(db: Session, db_answer: Answer, db_user: User):
     db_answer.voter.append(db_user)
     db.commit()
+
+
+def get_answer_list(db: Session, question_id: int,
+                    skip: int = 0, limit: int = 10,
+                    ):
+    _answer_list = db.query(Answer).filter(Answer.question_id == question_id)\
+            .order_by(Answer.create_date.desc())
+    total = _answer_list.count()
+    answer_list = _answer_list.offset(skip).limit(limit).all()
+    return total, answer_list
+    
