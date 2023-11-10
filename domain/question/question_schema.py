@@ -3,6 +3,7 @@ import datetime
 from pydantic import BaseModel, field_validator
 
 from domain.answer.answer_schema import Answer
+from domain.comment.comment_schema import Comment
 from domain.user.user_schema import User
 from typing import Optional
 
@@ -12,6 +13,7 @@ class Question(BaseModel):
     content: str
     create_date: datetime.datetime
     answers: list[Answer] = []
+    comments: list[Comment] = []
     user: Optional[User] = None
     modify_date: Optional[datetime.datetime] = None
     voter: list[User] = []

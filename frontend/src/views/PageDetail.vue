@@ -31,6 +31,38 @@
         </div>
     </div>
 
+    <!-- 댓글(질문) 목록 -->
+      <div class="card-header">댓글 리스트</div>
+
+        <div v-if="is_login">
+          <button class="btn btn-sm btn-outline-secondary mb-3" @click="toggleCommentInput">댓글 작성</button>
+        </div>
+        <div v-if="showCommentInput">
+           <textarea v-model="commentContent" class="form-control mb-3"
+            maxlength="500"
+            placeholder="댓글을 입력하세요."></textarea>
+        <button class="btn btn-sm btn-outline-secondary mb-3" @click="postCommentQuestion">작성</button>
+        <button class="btn btn-sm btn-outline-secondary mb-3" @click="toggleCommentInput">취소</button>
+        </div>
+    <div v-if="question.comments.length > 0" class="card my-3">
+      <div v-for="(comment, index) in question.comments" :key="comment.id" class="my-1">
+        <div v-if="index === editIndex">
+          <textarea v-model="comment.content" class="form-control mb-3"
+              :disabled="is_login ? false : true"
+              maxlength="500"
+              placeholder="Edit comment"></textarea>
+          <button class="btn btn-sm btn-outline-secondary mb-3" @click="updateComment">수정</button>
+          <button class="btn btn-sm btn-outline-secondary mb-3" @click="stopEditing">취소</button>
+        </div>
+          {{comment.content}}, <em>{{comment.user.username}}</em> - <em>{{ formatDate(comment.create_date)}}</em>
+           <span v-if="is_login && !isEditing" class="text-muted">
+             <button class="btn btn-sm btn-outline-secondary" @click="startEditing(index)">수정</button>
+             <button class="btn btn-sm btn-outline-secondary" @click="deleteComment(comment.id)">삭제</button>
+          </span>
+      </div>
+    </div>
+    <!-- 끝 -->
+    
     <div class="mt-4">
       <router-link to="/" class="btn btn-secondary">
         목록으로
@@ -131,11 +163,15 @@ export default {
   },
   data() {
     return {
-      question: { answers: [], voter:[], content:''  },
+      question: { answers: [], voter:[], content:'', comments:[]  },
       content: "",
       answerList: [],
       size: 5,
       total: 0,
+      showCommentInput: false, // 댓글 입력창 토글 상태
+      commentContent: "", // 댓글 내용
+      isEditing: false, // 댓글 수정창 토글 상태
+      editIndex: -1, // 수정할 댓글의 인덱스
     };
   },
   computed: {
@@ -237,6 +273,61 @@ export default {
         this.total = json.total;
       });
     },
+    toggleCommentInput() {
+      this.showCommentInput = !this.showCommentInput;
+      this.commentContent = ""; // 댓글 내용 초기화
+    },
+    startEditing(index) {
+      this.editIndex = index;
+      this.isEditing = true;
+    },
+    stopEditing() {
+      this.isEditing = false;
+      this.editIndex = -1;
+    },
+
+    postCommentQuestion() {
+      let url = `/api/comment/create/question/${this.question_id}`
+      let params = {
+        content: this.commentContent
+      }
+      fastapi('post', url, params, () => {
+        this.commentContent = ''
+        this.getQuestion()
+        this.getAnswerList()
+       },
+      ),
+      this.toggleCommentInput()
+    },
+    
+    updateComment() {
+      const comment = this.question.comments[this.editIndex]
+      let url = `/api/comment/update`
+      let params = {
+         content: comment.content
+      }
+      fastapi('put', url, params, () => {
+        this.commentContent = ''
+       },
+      ),
+      this.getQuestion()
+      this.getAnswerList()
+      this.stopEditing()
+    },
+    deleteComment(commentId) {
+      let url = `/api/comment/delete`
+      let params = {
+           comment_id: commentId
+      }
+      fastapi('delete', url, params, () => {
+        this.getQuestion()
+        this.getAnswerList()
+       },
+      ),
+      this.stopEditing()
+    },
+    
+
   },  
   watch: {
     answer_page() {
