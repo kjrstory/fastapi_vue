@@ -14,7 +14,6 @@ router = APIRouter(
 )
 
 
-
 @router.post("/create/question/{question_id}", status_code=status.HTTP_204_NO_CONTENT)
 def comment_create_question(question_id: int,
                   _comment_create: comment_schema.CommentCreate,
@@ -36,7 +35,7 @@ def comment_create_answer(answer_id: int,
                   current_user: User = Depends(get_current_user)):
 
     answer = answer_crud.get_answer(db, answer_id=answer_id)
-    if not question:
+    if not answer:
         raise HTTPException(status_code=404, detail="Answer not found")
     comment_crud.create_comment_answer(db, answer=answer,
                               comment_create=_comment_create,
