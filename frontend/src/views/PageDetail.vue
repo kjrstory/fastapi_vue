@@ -26,6 +26,7 @@
     </div>
     <!-- 답변 등록 -->
     <form @submit.prevent="postAnswer" class="my-3">
+    <ErrorComponent :error="error" />
       <div class="mb-3">
         <textarea rows="10" v-model="content" class="form-control"></textarea>
       </div>
@@ -37,8 +38,12 @@
 
 <script>
 import fastapi from '../lib/api';
+import ErrorComponent from "../components/ErrorComponent.vue"
 
 export default {
+  components: {
+    ErrorComponent
+  },
   props: {
     question_id: {
       type: String,
@@ -49,6 +54,7 @@ export default {
     return {
       question: { answers: [] },
       content: "",
+      error: {detail:[]},
     };
   },
   methods: {
@@ -64,10 +70,13 @@ export default {
         content: this.content
       }
       fastapi('post', url, params, () => {
-        this.content = ""
-        this.error = { detail: [] }
-        this.getQuestion()
-       },
+         this.content = ""
+          this.error = { detail: [] }
+          this.getQuestion()
+        },
+        (err_json) => {
+          this.error = err_json
+        }
       )
     },
   },  
