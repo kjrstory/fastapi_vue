@@ -5,7 +5,6 @@
     <ul>
     <li v-for="answer in question.answers" :key="answer.id">{{ answer.content }}</li>
     </ul>
-    <ErrorComponent  :error="error" />
     <form @submit.prevent="postAnswer">
       <textarea rows="15" v-model="content"></textarea>
       <input type="submit" value="답변등록">
@@ -15,12 +14,8 @@
 
 <script>
 import fastapi from '../lib/api';
-import ErrorComponent from "../components/ErrorComponent.vue"
 
 export default {
-  components: {
-    ErrorComponent
-  },
   props: {
     question_id: {
       type: String,
@@ -31,7 +26,6 @@ export default {
     return {
       question: { answers: [] },
       content: "",
-      error: {detail:[]},
     };
   },
   methods: {
@@ -47,13 +41,10 @@ export default {
         content: this.content
       }
       fastapi('post', url, params, () => {
-          this.content = ""
-          this.error = { detail: [] }
-          this.getQuestion()
-        },
-        (err_json) => {
-          this.error = err_json
-        }
+        this.content = ""
+        this.error = { detail: [] }
+        this.getQuestion()
+       },
       )
     },
   },  
