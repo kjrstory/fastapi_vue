@@ -16,11 +16,17 @@ const fastapi = (operation, url, params, success_callback, failure_callback) => 
     }
 
     if (method !== 'get') {
-        options['data'] = body
+        options['body'] = body
     }
 
     fetch(_url, options)
         .then(response => {
+            if(response.status === 204) {  // No content
+                if(success_callback) {
+                    success_callback()
+                }
+                return
+            }
             response.json()
                 .then(json => {
                     if(response.status >= 200 && response.status < 300) {  // 200 ~ 299
