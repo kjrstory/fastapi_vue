@@ -1,6 +1,7 @@
 <template>
   <div class="container my-3">
     <h4>질문 등록</h4>
+    <ErrorComponent :error="error" />
     <form @submit.prevent="postQuestion">
       <div class="mb-3">
         <label for="subject" class="form-label">제목</label>
@@ -17,8 +18,12 @@
 
 <script>
   import fastapi from "../lib/api"
+  import ErrorComponent from "../components/ErrorComponent.vue"
 
   export default {
+    components: {
+      ErrorComponent
+    },
     data() {
       return {
         error: { detail: [] },
