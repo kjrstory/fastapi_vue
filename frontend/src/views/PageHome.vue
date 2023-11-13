@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 export default {
   data() {
     return {
@@ -13,14 +12,14 @@ export default {
     };
   },
   created() {
-      this.getQuestionList();
+    this.getQuestionList();
   },
   methods: {
     getQuestionList() {
-      axios.get("http://localhost:8000/api/question/list").then(response => {
-        this.questionList = response.data;
-      }).catch(error => {
-        console.log(error);
+      fetch("http://localhost:8000/api/question/list").then((response) => {
+        response.json().then((json) => {
+          this.questionList = json;
+        });
       });
     },
   },
