@@ -6,13 +6,13 @@
         class="navbar-toggler" 
         type="button" 
         data-bs-toggle="collapse" 
-        data-bs-target="#navbarNav" 
-        aria-controls="navbarNav" 
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedConten" 
         aria-expanded="false" 
         aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="collapse navbar-collapse" id="navbarSupportedConten">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <router-link to="/user-create" class="nav-link">회원가입</router-link>
