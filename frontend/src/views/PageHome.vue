@@ -9,7 +9,9 @@
      <div class="col-6">
        <div class="input-group">
          <input type="text" class="form-control" v-model="kw">
-         <button class="btn btn-outline-secondary" @click="this.$store.dispatch('setKeyword', kw);this.$store.dispatch('setPage', 0)">
+         <button class="btn btn-outline-secondary" 
+         @click="$store.commit('setKeyword', kw);
+                 $store.commit('setPage', 0)">
            찾기
          </button>
        </div>
@@ -29,7 +31,8 @@
       <td>{{ total - page * size - i }}</td>
       <td class="text-start">
         <router-link :to="'/detail/' + question.id">{{ question.subject }}</router-link>
-        <span v-if="question.answers.length > 0" class="text-danger small mx-2">{{question.answers.length}}</span>
+        <span v-if="question.answers.length > 0" 
+              class="text-danger small mx-2">{{question.answers.length}}</span>
       </td>
       <td v-if="question.user">{{ question.user.username }}</td>
       <td v-else></td>
@@ -40,15 +43,17 @@
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
       <li class="page-item" :class="{ disabled: page <= 0 }">
-        <button class="page-link" @click="this.$store.dispatch('setPage', page - 1)">이전</button>
+        <button class="page-link" @click="$store.commit('setPage', page - 1)">이전</button>
       </li>
-      <template v-for="(value, index) in Array.from({ length: totalPage })" :key="index">
-        <li class="page-item" v-if="index >= page - 5 && index <= page + 5" :class="{ active: index === page }">
-          <button class="page-link" @click="this.$store.dispatch('setPage', index)">{{ index + 1 }}</button>
+      <template v-for="(_, loop_page) in Array.from({ length: totalPage })" :key="loop_page">
+        <li class="page-item" 
+            v-if="loop_page >= page - 5 && loop_page <= page + 5"
+            :class="{ active: loop_page === page }">
+          <button class="page-link" @click="$store.commit('setPage', loop_page)">{{ loop_page + 1 }}</button>
         </li>
       </template>
       <li class="page-item" :class="{ disabled: page >= totalPage - 1 }">
-        <button class="page-link" @click="this.$store.dispatch('setPage', page + 1)">다음</button>
+        <button class="page-link" @click="$store.commit('setPage', page + 1)">다음</button>
       </li>
     </ul>
     <!-- 페이징처리 끝 -->
@@ -59,6 +64,7 @@
   import fastapi from '../lib/api';
   import moment from 'moment'
   import 'moment/locale/ko'
+
   moment.locale('ko')
 
   export default {
@@ -67,7 +73,7 @@
         questionList: [],
         size: 10,
         total: 0,
-        kw :''
+        kw: "",
       };
     },
     computed: {
@@ -77,11 +83,11 @@
       page() {
         return this.$store.state.page;
       },  
-      keyword() {
-        return this.$store.state.keyword;
-      },
       totalPage() {
         return Math.ceil(this.total / this.size);
+      },
+      keyword() {
+        return this.$store.state.keyword;
       },
     },
     methods: {
@@ -90,7 +96,7 @@
         let params = { 
             page: this.page,
             size: this.size,
-            keyword: this.keyword
+            keyword: this.keyword,
         }
         fastapi('get', url, params, (json) => {
           this.questionList = json.question_list;
