@@ -1,91 +1,52 @@
 <template>
-<div class="container my-3">
-    <!-- 질문 -->
-    <h2 class="border-bottom py-2">{{ question.subject }}</h2>
-    <div class="card my-3">
-        <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;">{{question.content}}</div>
-            <div class="d-flex justify-content-end">
-                <div class="badge bg-light text-dark p-2">
-                    {{ formatDate(question.create_date) }}
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="mt-4">
-      <router-link to="/" class="btn btn-secondary">
-        목록으로
-      </router-link>
-    </div>
-
-    <!-- 답변 목록 -->
-    <h5 class="border-bottom my-3 py-2">{{question.answers.length}}개의 답변이 있습니다.</h5>
-    <div v-for="answer in question.answers" :key="answer.id" class="card my-3">
-        <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;">{{answer.content}}</div>
-            <div class="d-flex justify-content-end">
-                <div class="badge bg-light text-dark p-2">
-                    {{ formatDate(question.create_date) }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- 답변 등록 -->
-    <form @submit.prevent="postAnswer" class="my-3">
+  <div class="container my-3">
+    <h4>질문 등록</h4>
+    <ErrorComponent :error="error" />
+    <form @submit.prevent="postQuestion">
       <div class="mb-3">
-        <textarea rows="10" v-model="content" class="form-control"></textarea>
+        <label for="subject" class="form-label">제목</label>
+        <input type="text" class="form-control" id="subject" v-model="subject">
       </div>
-      <input type="submit" value="답변등록" class="btn btn-primary">
+      <div class="mb-3">
+        <label for="content" class="form-label">내용</label>
+        <textarea class="form-control" id="content" rows="10" v-model="content"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary">저장하기</button>
     </form>
-</div>
-  
+  </div>
 </template>
 
 <script>
-import fastapi from '../lib/api';
-import moment from 'moment';
-import 'moment/locale/ko';
-
-moment.locale('ko')
+import fastapi from "../lib/api"
+import ErrorComponent from "../components/ErrorComponent.vue"
 
 export default {
-  props: {
-    question_id: {
-      type: String,
-      required: true
-    }
+  components: {
+    ErrorComponent
   },
   data() {
     return {
-      question: { answers: [] },
+      error: { detail: [] },
+      subject: "",
       content: "",
     };
   },
   methods: {
-    getQuestion() {
-      let url = `/api/question/detail/${this.question_id}`
-      fastapi('get', url, {}, (json) => {
-        this.question = json;
-      });
-    },
-    postAnswer() {
-      let url = `/api/answer/create/${this.question_id}`
+    postQuestion() {
+      let url = "/api/question/create"
       let params = {
-        content: this.content
+        subject: this.subject,
+        content: this.content,
       }
-      fastapi('post', url, params, () => {
-        this.content = ''
-        this.getQuestion()
-       },
+      fastapi('post', url, params, 
+        () => {
+          this.$router.push("/")
+        },
+        (json_error) => {
+          this.error = json_error
+        }
       )
-    },
-    formatDate(date) {
-      return moment(date).format('YYYY년 MM월 DD일 HH:mm:ss');
     }
-  },  
-  created() {
-    this.getQuestion();
   }
 }
 </script>
