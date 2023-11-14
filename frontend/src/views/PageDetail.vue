@@ -134,6 +134,9 @@ export default {
         }
         fastapi('delete', url, params, () => {
           this.$router.push("/")
+        },
+        (err_json) => {
+          this.error = err_json
         })
       }
     },
@@ -145,6 +148,9 @@ export default {
         }
         fastapi('delete', url, params, () => {
             this.getQuestion()
+        },
+        (err_json) => {
+          this.error = err_json
         })
       }
     },
