@@ -40,9 +40,9 @@ export default {
       }
       fastapi('login', url, params,
         (json) => {
-          this.$store.dispatch("setAccessToken", json.access_token)
-          this.$store.dispatch("setUsername", json.username)
-          this.$store.dispatch("setIsLogin", true)
+          this.$store.commit("setAccessToken", json.access_token)
+          this.$store.commit("setUsername", json.username)
+          this.$store.commit("setIsLogin", true)
           this.$router.push("/")
         }
       )
