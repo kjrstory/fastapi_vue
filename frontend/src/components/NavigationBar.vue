@@ -45,13 +45,8 @@ export default {
   },
   methods: {
     setPage(page) {
-      this.$store.dispatch('setPage', page);
+      this.$store.commit('setPage', page);
     },
-    logoutUser() {
-      this.$store.dispatch("setAccessToken", "")
-      this.$store.dispatch("setUsername", "")
-      this.$store.dispatch("setIsLogin", false)
-    }
   }
 }
 </script>
