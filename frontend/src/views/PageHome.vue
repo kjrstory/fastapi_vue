@@ -72,7 +72,7 @@
             size: this.size}
         fastapi('get', url, params, (json) => {
           this.questionList = json.question_list;
-          this.$store.dispatch('setPage',_page);
+          this.$store.commit('setPage',_page);
           this.total = json.total;
         });
       },
