@@ -1,10 +1,15 @@
 <template>
   <div class="container">
     <h5 class="my-3 border-bottom pb-2">질문 수정</h5>
+    <ErrorComponent :error="error" />
     <form @submit.prevent="updateQuestion" class="my-3">
       <div class="mb-3">
-        <label for="content">내용</label>
-        <textarea class="form-control" rows="10" v-model="content"></textarea>
+        <label for="subject" class="form-label">제목</label>
+        <input type="text" class="form-control" id="subject" v-model="subject">
+      </div>
+      <div class="mb-3">
+        <label for="content" class="form-label">내용</label>
+        <textarea class="form-control" id="content" rows="10" v-model="content"></textarea>
       </div>
       <button type="submit" class="btn btn-primary">수정하기</button>
     </form>
@@ -13,8 +18,12 @@
 
 <script>
 import fastapi from '../lib/api'
+import ErrorComponent from "../components/ErrorComponent.vue"
 
 export default {
+  components: {
+    ErrorComponent
+  },
   props: {
     question_id: {
       type: String,
@@ -23,6 +32,7 @@ export default {
   },
   data() {
     return {
+      error: { detail: [] },
       subject: '',
       content: '',
     }
@@ -44,7 +54,10 @@ export default {
       };
       fastapi('put', url, params, () => {
           this.$router.push("/detail/"+this.question_id)
-      })
+      }),
+      (json_error) => {
+          this.error = json_error
+      }
     }
   }
 };
