@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h5 class="my-3 border-bottom pb-2">회원 가입</h5>
+    <ErrorComponent :error="error" />
     <form @submit.prevent="postUser">
       <div class="mb-3">
         <label for="username">사용자 이름</label>
@@ -25,10 +26,15 @@
 
 <script>
 import fastapi from "../lib/api"
+import ErrorComponent from "../components/ErrorComponent.vue"
 
 export default {
+  components: {
+    ErrorComponent
+  },
   data() {
     return {
+      error: { detail: [] },
       username: '',
       password1: '',
       password2: '',
@@ -47,6 +53,9 @@ export default {
       fastapi('post', url, params,
         () => {
           this.$router.push("/user-login")
+        },
+        (json_error) => {
+            this.error=json_error
         }
       )
     }
