@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h5 class="my-3 border-bottom pb-2">로그인</h5>
+    <ErrorComponent :error="error" />
     <form @submit.prevent="loginUser">
       <div class="mb-3">
         <label for="username">사용자 이름</label>
@@ -17,10 +18,15 @@
 
 <script>
 import fastapi from "../lib/api"
+import ErrorComponent from "../components/ErrorComponent.vue"
 
 export default {
+  components: {
+    ErrorComponent
+  },
   data() {
     return {
+      error: { detail: [] },
       login_username: '',
       login_password: ''
     }

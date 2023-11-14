@@ -3,44 +3,25 @@ import persistedstate from 'vuex-persistedstate';
 
 
 const store = createStore({
-  plugins: [persistedstate()],
-  state: {
-    page: 0,
-    access_token: "",
-    username: "",
-    is_login: false 
-  },
-  mutations: {
-    setPage(state, payload) {
-      state.page = payload
+    plugins: [persistedstate()],
+    state: {
+        page: 0,
+        access_token: "",
+        username: "",
+        is_login: false
     },
-    setAccessToken(state, token) {
-      state.access_token = token
+    mutations: {
+        setPage: (state, payload) => state.page = payload ,
+        setAccessToken: (state, payload) => state.access_token = payload, 
+        setUsername: (state, payload) => state.username = payload,
+        setIsLogin: (state, payload) => state.is_login = payload,
     },
-    setUsername(state, username) {
-      state.username = username
+    actions: {
+        setPage: ({commit}, payload) => commit('setPage', payload),
+        setAccessToken: ({commit}, payload) => commit('setAccessToekn', payload),
+        setUsername: ({commit}, payload) => commit('setUsername', payload),
+        setIsLogin: ({commit}, payload) => commit('setIsLogin', payload),
     },
-    setIsLogin(state, is_login) {
-      state.is_login = is_login
-    }
-  },
-  actions: {
-    setPage(context, payload) {
-      context.commit('setPage', payload)
-    },
-    setAccessToken(context, payload) {
-      context.commit('setAccessToken', payload)
-    },
-    setUsername(context, payload) {
-      context.commit('setUsername', payload)
-    },
-    setIsLogin(context, payload) {
-      context.commit('setIsLogin', payload)
-    }
-  },
-  getters: {
-    getPage: (state) => state.page,
-  }
 })
 
 export default store
