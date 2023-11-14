@@ -54,10 +54,10 @@ export default {
       };
       fastapi('put', url, params, () => {
           this.$router.push("/detail/"+this.question_id)
-      }),
-      (json_error) => {
-          this.error = json_error
-      }
+      },
+      (err_json) => {
+          this.error = err_json
+      })
     }
   }
 };
