@@ -4,7 +4,7 @@
     <h2 class="border-bottom py-2">{{ question.subject }}</h2>
     <div class="card my-3">
         <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;">{{question.content}}</div>
+            <div class="card-text" v-html="markContent(question.content)"></div>
             <div class="d-flex justify-content-end">
                 <div v-if="question.modify_date" class="badge bg-light text-dark p-2 text-start mx-3">
                     <div class="mb-2">modified at</div>
@@ -56,7 +56,7 @@
     </div>
     <div v-for="answer in answerList" :key="answer.id" class="card my-3">
         <div class="card-body">
-            <div class="card-text" style="white-space: pre-line;">{{answer.content}}</div>
+            <div class="card-text" v-html="markContent(answer.content)"></div>
             <div class="d-flex justify-content-end">
                 <div v-if="answer.modify_date" class="badge bg-light text-dark p-2 text-start mx-3">
                     <div class="mb-2">modified at</div>
@@ -120,6 +120,7 @@
 <script>
 import fastapi from '../lib/api';
 import ErrorComponent from "../components/ErrorComponent.vue"
+import { marked } from 'marked';
 import moment from 'moment';
 import 'moment/locale/ko';
 
