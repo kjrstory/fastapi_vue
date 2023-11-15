@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <ErrorComponent :error="error" />
     <h5 class="my-3 border-bottom pb-2">답변 수정</h5>
     <form @submit.prevent="updateAnswer" class="my-3">
       <div class="mb-3">
@@ -13,8 +14,12 @@
 
 <script>
 import fastapi from '../lib/api'
+import ErrorComponent from "../components/ErrorComponent.vue"
 
 export default {
+  components: {
+    ErrorComponent
+  },
   props: {
     answer_id: {
       type: String,
@@ -23,6 +28,7 @@ export default {
   },
   data() {
     return {
+      error: { detail: [] },
       question_id: 0,  
       content: '',
     }
@@ -42,6 +48,9 @@ export default {
       };
       fastapi('put', url, params, () => {
           this.$router.push("/detail/"+this.question_id)
+      },
+      (err_json) => {
+          this.error = err_json
       })
     }
   }
