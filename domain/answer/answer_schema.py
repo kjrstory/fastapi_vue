@@ -23,7 +23,7 @@ class Answer(BaseModel):
     question_id: int
     modify_date: Optional[datetime.datetime] = None
     voter: list[User] = []
-    voter_count: int = 0
+#    voter_count: int = 0
 
     class Config:
         orm_mode = True
