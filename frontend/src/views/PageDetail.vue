@@ -164,6 +164,9 @@ export default {
       },
   },
   methods: {
+    markContent(_content){
+        return marked(_content)
+    },
     getQuestion() {
       let url = `/api/question/detail/${this.question_id}`
       fastapi('get', url, {}, (json) => {
