@@ -50,16 +50,19 @@
                     <div>{{ formatDate(answer.create_date) }}</div>
                 </div>
             </div>
-            <button class="btn btn-sm btn-outline-secondary" @click="voteAnswer(answer.id)">
-               추천
-               <span class="badge rounded-pill bg-success">{{ answer.voter.length }}</span>
-            </button>
-            <div class="my-3" 
-                 v-if="answer.user && $store.state.username === answer.user.username">
-               <router-link :to="'/answer-modify/' + answer.id" 
-                            class="btn btn-sm btn-outline-secondary">수정</router-link>
-               <button class="btn btn-sm btn-outline-secondary"
-                       @click="deleteAnswer(answer.id)">삭제</button>
+            <div class="my-3">
+              <button class="btn btn-sm btn-outline-secondary" @click="voteAnswer(answer.id)">
+                 추천
+                 <span class="badge rounded-pill bg-success">{{ answer.voter.length }}</span>
+              </button>
+              <template v-if="answer.user && $store.state.username === answer.user.username">
+                <router-link :to="'/answer-modify/' + answer.id" 
+                             class="btn btn-sm btn-outline-secondary">
+                             수정</router-link>
+                <button class="btn btn-sm btn-outline-secondary"
+                        @click="deleteAnswer(answer.id)">
+                        삭제</button>
+              </template>          
             </div>
         </div>
     </div>
