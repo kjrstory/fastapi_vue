@@ -21,7 +21,7 @@
                  추천
                  <span class="badge rounded-pill bg-success">{{ question.voter.length }}</span>
               </button>
-              <template v-if="answer.user && $store.state.username === answer.user.username">
+              <template v-if="question.user && $store.state.username === question.user.username">
                 <router-link :to="'/question-modify/' + question.id" 
                             class="btn btn-sm btn-outline-secondary">수정</router-link>
                 <button class="btn btn-sm btn-outline-secondary" 
