@@ -1,6 +1,6 @@
 frontend/node_modules
 __pycache__
 myapi.db
-migrations
+migrations/versions/*
 alembic.ini
 .env
