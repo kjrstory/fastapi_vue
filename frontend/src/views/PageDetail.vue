@@ -138,7 +138,7 @@ export default {
   },
   data() {
     return {
-      question: { answers: [], voter:[] },
+      question: { answers: [], voter:[], content: "" },
       content: "",
       error: {detail:[]},
       answerList: [],
@@ -281,9 +281,9 @@ export default {
   },  
   created() {
     this.getQuestion();
-    this.$store.commit('setAnswerPage', 0)
-    this.$store.commit('setSortBy', 'create_date');
-    this.$store.commit('setDesc', true)
+//    this.$store.commit('setAnswerPage', 0)
+//    this.$store.commit('setSortBy', 'create_date');
+//    this.$store.commit('setDesc', true)
     this.getAnswerList();
   }
 }

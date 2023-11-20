@@ -28,7 +28,10 @@
     <tr v-for="(question,i) in questionList" :key="question.id" class="text-center">
       <td>{{ total - page * size - i }}</td>
       <td class="text-start">
-        <router-link :to="'/detail/' + question.id">{{ question.subject }}</router-link>
+        <router-link :to="'/detail/' + question.id"
+                     @click="this.$store.commit('setAnswerPage', 0);
+                             this.$store.commit('setSortBy', 'create_date');
+                             this.$store.commit('setDesc', true);">{{ question.subject }}</router-link>
         <span v-if="question.answers.length > 0" class="text-danger small mx-2">{{question.answers.length}}</span>
       </td>
       <td v-if="question.user">{{ question.user.username }}</td>
