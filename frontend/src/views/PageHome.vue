@@ -32,7 +32,7 @@
       <td class="text-start">
         <router-link :to="'/detail/' + question.id"
                      @click="$store.commit('setAnswerPage', 0);
-                             $store.commit('setSort_by', 'create_time');
+                             $store.commit('setSortBy', 'create_date');
                              $store.commit('setDesc', true);"
                      >{{ question.subject }}</router-link>
         <span v-if="question.answers.length > 0" 

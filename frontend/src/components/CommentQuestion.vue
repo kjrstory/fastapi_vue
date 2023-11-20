@@ -2,7 +2,7 @@
   <!-- 댓글 목록 -->
   <div v-if="question.comments.length > 0" class="card my-3">
     <div v-for="comment in question.comments" :key="comment.id" class="my-1">
-      <div v-if="editIndex === comment.id">
+      <div v-if="showCommentModifyId === comment.id">
         <input v-model="content" class="form-control mb-3"
             :disabled="is_login ? false : true"
             maxlength="500"
@@ -12,7 +12,7 @@
         <span style="cursor: pointer; color: red; margin: 2px;"
               @click="stopEditing">취소</span>
       </div>
-      <div v-if="editIndex !== comment.id">
+      <div v-if="showCommentModifyId  !== comment.id">
       <span> {{comment.content}}, </span>
       <span class="text-muted"> - {{comment.user.username}}, </span>
       <span class="text-muted"> {{formatDate(comment.create_date)}} </span>
@@ -70,9 +70,8 @@ export default {
     return {
       error: { detail: [] },  
       question: { answers: [], voter:[], content:'', comments:[] },
-      isEditing: false, // 댓글 수정창 토글 상태
-      editIndex: -1, // 수정할 댓글의 인덱스
       content: "",
+      showCommentModifyId: -1,
       showCommentInput: false,
     }
   },
@@ -138,15 +137,15 @@ export default {
     toggleCommentInput() {
       this.showCommentInput = !this.showCommentInput;
       this.content = "";
+      this.showCommentModifyId = -1
     },
     startEditing(index,_content) {
-      this.editIndex = index;
-      this.isEditing = true;
+      this.showCommentModifyId = index;
       this.content = _content;
+      this.showCommentInput = false
     },
     stopEditing() {
-      this.isEditing = false;
-      this.editIndex = -1;
+      this.showCommentModifyId = -1
     },
   },
   created() {
