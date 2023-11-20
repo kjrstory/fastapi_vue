@@ -89,7 +89,7 @@ export default {
       )
     },
     formatDate(date) {
-      return moment(date).format('YYYY년 MM월 DD일 HH:mm:ss');
+      return moment(date).format('YYYY년 MM월 DD일 hh:mm a');
     }
   },  
   created() {
