@@ -16,16 +16,17 @@
                     <div>{{ formatDate(question.create_date) }}</div>
                 </div>
             </div>
-            <button class="btn btn-sm btn-outline-secondary" @click="voteQuestion(question.id)">
-               추천
-               <span class="badge rounded-pill bg-success">{{ question.voter.length }}</span>
-            </button>
-            <div class="my-3" 
-                v-if="question.user && $store.state.username === question.user.username">
-               <router-link :to="'/question-modify/' + question.id" 
+            <div class="my-3">
+              <button class="btn btn-sm btn-outline-secondary" @click="voteQuestion(question.id)">
+                 추천
+                 <span class="badge rounded-pill bg-success">{{ question.voter.length }}</span>
+              </button>
+              <template v-if="question.user && $store.state.username === question.user.username">
+                <router-link :to="'/question-modify/' + question.id"
                             class="btn btn-sm btn-outline-secondary">수정</router-link>
-               <button class="btn btn-sm btn-outline-secondary" 
+                <button class="btn btn-sm btn-outline-secondary"
                        @click="deleteQuestion(question.id)">삭제</button>
+               </template>
             </div>
         </div>
         <CommentQuestion :question_id="question_id"/>
@@ -70,16 +71,17 @@
                     <div>{{ formatDate(answer.create_date) }}</div>
                 </div>
             </div>
-            <button class="btn btn-sm btn-outline-secondary" @click="voteAnswer(answer.id)">
-               추천
-               <span class="badge rounded-pill bg-success">{{ answer.voter.length }}</span>
-            </button>
-            <div class="my-3" 
-                 v-if="answer.user && $store.state.username === answer.user.username">
-               <router-link :to="'/answer-modify/' + answer.id" 
+            <div class="my-3">
+              <button class="btn btn-sm btn-outline-secondary" @click="voteAnswer(answer.id)">
+                 추천
+                 <span class="badge rounded-pill bg-success">{{ answer.voter.length }}</span>
+              </button>
+              <template v-if="answer.user && $store.state.username === answer.user.username">
+                <router-link :to="'/answer-modify/' + answer.id"
                             class="btn btn-sm btn-outline-secondary">수정</router-link>
-               <button class="btn btn-sm btn-outline-secondary"
+                <button class="btn btn-sm btn-outline-secondary"
                        @click="deleteAnswer(answer.id)">삭제</button>
+              </template>
             </div>
         </div>
         <CommentAnswer :answer_id="answer.id"/>
@@ -197,7 +199,7 @@ export default {
       )
     },
     formatDate(date) {
-      return moment(date).format('YYYY년 MM월 DD일 HH:mm:ss');
+      return moment(date).format('YYYY년 MM월 DD일 hh:mm a');
     },
     deleteQuestion(question_id) {
       if(confirm('정말로 삭제하시겠습니까?')) {
@@ -288,9 +290,6 @@ export default {
   },  
   created() {
     this.getQuestion();
-    this.$store.commit('setAnswerPage', 0)
-    this.$store.commit('setSortBy', 'create_date');
-    this.$store.commit('setDesc', true)
     this.getAnswerList();
   }
 }
