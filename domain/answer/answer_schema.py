@@ -23,6 +23,14 @@ class Answer(BaseModel):
     question_id: int
     modify_date: Optional[datetime.datetime] = None
     voter: list[User] = []
+#    voter_count: int = 0
+
+    class Config:
+        orm_mode = True
+
+class AnswerList(BaseModel):
+    total: int = 0
+    answer_list: list[Answer]= []
 
 
 class AnswerUpdate(AnswerCreate):
