@@ -20,6 +20,7 @@
     <table class="table">
         <thead>
         <tr class="text-center table-dark">
+            <th>카테고리</th>
             <th>번호</th>
             <th style="width:50%">제목</th>
             <th>글쓴이</th>
@@ -28,6 +29,7 @@
         </thead>
     <tbody>
     <tr v-for="(question,i) in questionList" :key="question.id" class="text-center">
+      <td>{{ question.category.subject }}</td>
       <td>{{ total - page * size - i }}</td>
       <td class="text-start">
         <router-link :to="'/detail/' + question.id"
@@ -72,6 +74,12 @@
   moment.locale('ko')
 
   export default {
+    props: {
+      category_id: {
+        type: String,
+        required: true
+      }
+    },
     data() {
       return {
         questionList: [],
@@ -101,6 +109,7 @@
             page: this.page,
             size: this.size,
             keyword: this.keyword,
+            category_id: this.category_id,
         }
         fastapi('get', url, params, (json) => {
           this.questionList = json.question_list;
@@ -117,6 +126,9 @@
         this.getQuestionList();
       },
       keyword() {
+        this.getQuestionList();
+      },
+      category_id() {
         this.getQuestionList();
       }
     },

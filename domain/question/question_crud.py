@@ -2,12 +2,16 @@ from datetime import datetime
 
 from domain.question.question_schema import QuestionCreate, QuestionUpdate
 from sqlalchemy import and_
-from models import Question, User, Answer
+from models import Question, User, Answer, Category
 from sqlalchemy.orm import Session
 
 
-def get_question_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = ''):
+def get_question_list(db: Session, skip: int = 0, limit: int = 10, keyword: str = '',
+                      category_id: int = 0):
     question_list = db.query(Question)
+    if category_id!=0:
+        question_list = question_list.filter(Question.category_id == category_id)
+
     if keyword:
         search = '%%{}%%'.format(keyword)
         sub_query = db.query(Answer.question_id, Answer.content, User.username) \
