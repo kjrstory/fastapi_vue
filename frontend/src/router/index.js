@@ -27,7 +27,7 @@ const routes = [
   {
     path: '/question-create',
     name: 'QuestionCreate',
-    component: QuestionCreate
+    component: QuestionCreate,
   },
   {
     path: '/user-create',

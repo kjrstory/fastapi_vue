@@ -1,7 +1,7 @@
 <template>
   <NavigationBar />
   <div class="container-fluid">
-    <div class="row">
+    <div class="row no-gutters">
       <div class="col-md-2">
         <SideBar />
       </div>

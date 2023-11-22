@@ -2,8 +2,9 @@
 <div class="container my-3">
     <div class="row my-3">
       <div class="col-6">
-       <a href="/question-create" class="btn btn-primary" :class="{ disabled: !is_login }">
-         질문 등록하기
+       <a :href="'/question-create?category_id=' + category_id" 
+          class="btn btn-primary" :class="{ disabled: !is_login }">
+        질문 등록하기
        </a>
      </div>
      <div class="col-6">

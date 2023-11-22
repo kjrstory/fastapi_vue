@@ -6,22 +6,26 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
       <li class="nav-item">
-        <router-link :to="'/list/0'" class="nav-link fs-5" exact>
+        <router-link :to="'/list/0'" class="nav-link text-black fs-5"
+                     :class="{ active: $route.path === '/list/0' } ">
           모두
         </router-link>
       </li>
       <li>
-        <router-link :to="'/list/1'" class="nav-link text-black fs-5">
+        <router-link :to="'/list/1'" class="nav-link text-black fs-5"
+                     :class="{ active: $route.path === '/list/1' } ">
           질문답변
         </router-link>
       </li>
       <li>
-        <router-link :to="'/list/2'" class="nav-link text-black fs-5">
+        <router-link :to="'/list/2'" class="nav-link text-black fs-5"
+                     :class="{ active: $route.path === '/list/2' } ">
           강좌
         </router-link>
       </li>
       <li>
-        <router-link :to="'/list/3'" class="nav-link text-black fs-5">
+        <router-link :to="'/list/3'" class="nav-link text-black fs-5"
+                     :class="{ active: $route.path === '/list/3' } ">
           자유게시판
         </router-link>
       </li>
