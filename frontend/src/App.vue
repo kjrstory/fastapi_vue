@@ -1,13 +1,11 @@
 <template>
   <NavigationBar />
-  <div class="container-fluid">
-    <div class="row no-gutters">
-      <div class="col-md-2">
-        <SideBar />
-      </div>
-      <main role="main" class="col-md-10">
-        <router-view />
-      </main>
+  <div class="container-xxl  bd-layout">
+    <div class="d-flex">
+    <SideBar />
+    <main class="bd-main "  style="flex-grow: 1;">
+    <router-view />
+    </main>
     </div>
   </div>
 </template>
