@@ -3,7 +3,6 @@
     <h5 class="my-3 border-bottom pb-2">질문 수정</h5>
     <ErrorComponent :error="error" />
     <form @submit.prevent="updateQuestion" class="my-3">
-      
       <div class="form-group">
         <label for="category">카테고리</label>
         <div class="col-md-2">
@@ -12,7 +11,6 @@
         </select>
         </div>
       </div>
-
       <div class="mb-3">
         <label for="subject" class="form-label">제목</label>
         <input type="text" class="form-control" id="subject" v-model="subject">

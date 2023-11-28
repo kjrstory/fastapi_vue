@@ -3,7 +3,6 @@
     <h4>질문 등록</h4>
     <ErrorComponent :error="error" />
     <form @submit.prevent="postQuestion">
-  
       <div class="form-group">
         <label for="category">카테고리</label>
         <div class="col-md-2">
@@ -12,7 +11,6 @@
         </select>
         </div>
       </div>
-
       <div class="mb-3">
         <label for="subject" class="form-label">제목</label>
         <input type="text" class="form-control" id="subject" v-model="subject">
@@ -77,10 +75,8 @@ export default {
     }
   },
   created() {
-    // 페이지 로드 시에 URL의 쿼리 값을 읽어와서 selectedCategory를 업데이트
     const urlParams = new URLSearchParams(window.location.search);
     const category_id = urlParams.get('category_id');
-
     if (category_id) {
       this.selectedCategory = this.categoryMapping[category_id]
     }
