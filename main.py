@@ -32,3 +32,6 @@ app.mount("/js", StaticFiles(directory="frontend/dist/js"))
 def index():
     return FileResponse("frontend/dist/index.html")
 
+@app.get("/{path_name:path}", response_class=HTMLResponse)
+def catch_all(path_name: str):
+    return FileResponse("frontend/dist/index.html")
