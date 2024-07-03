@@ -31,6 +31,8 @@ class Question(Base):
     user = relationship("User", backref="question_users")
     modify_date = Column(DateTime, nullable=True)
     voter = relationship('User', secondary=question_voter, backref='question_voters')
+    category_id = Column(Integer, ForeignKey("category.id"), nullable=True)
+    category = relationship("Category", backref="questions")
 
 
 class Answer(Base):
@@ -70,4 +72,11 @@ class Comment(Base):
     user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
     user = relationship("User", backref="comment_users")
     modify_date = Column(DateTime, nullable=True)
-    
+
+
+class Category(Base):
+    __tablename__ = "category"
+
+    id = Column(Integer, primary_key=True)
+    subject = Column(String, nullable=False)
+

@@ -10,8 +10,13 @@ import AnswerModify from "@/views/AnswerModify.vue"
 const routes = [
   {
     path: '/',
+    redirect: '/list/0'
+  },
+  {
+    path: '/list/:category_id',
     name: 'PageHome',
-    component: PageHome
+    component: PageHome,
+    props: true
   },
   {
     path: '/detail/:question_id',
@@ -22,7 +27,7 @@ const routes = [
   {
     path: '/question-create',
     name: 'QuestionCreate',
-    component: QuestionCreate
+    component: QuestionCreate,
   },
   {
     path: '/user-create',
