@@ -55,3 +55,19 @@ class User(Base):
     username = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
     email = Column(String, unique=True, nullable=False)
+
+
+class Comment(Base):
+    __tablename__ = "comment"
+
+    id = Column(Integer, primary_key=True)
+    content = Column(Text, nullable=False)
+    create_date = Column(DateTime, nullable=False)
+    question_id = Column(Integer, ForeignKey("question.id"))
+    question = relationship("Question", backref="comments")
+    answer_id = Column(Integer, ForeignKey("answer.id"))
+    answer = relationship("Answer", backref="comments")
+    user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
+    user = relationship("User", backref="comment_users")
+    modify_date = Column(DateTime, nullable=True)
+    
