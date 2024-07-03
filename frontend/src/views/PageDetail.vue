@@ -31,7 +31,6 @@
         </div>
         <CommentQuestion :question_id="question_id"/>
     </div>
-
     <div class="mt-4">
       <router-link to="/" class="btn btn-secondary">
         목록으로
@@ -175,7 +174,7 @@ export default {
   methods: {
     markContent(_content){
         return marked(_content)
-    },  
+    },
     getQuestion() {
       let url = `/api/question/detail/${this.question_id}`
       fastapi('get', url, {}, (json) => {
