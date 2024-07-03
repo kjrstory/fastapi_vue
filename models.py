@@ -74,9 +74,3 @@ class Comment(Base):
     modify_date = Column(DateTime, nullable=True)
 
 
-class Category(Base):
-    __tablename__ = "category"
-
-    id = Column(Integer, primary_key=True)
-    subject = Column(String, nullable=False)
-
