@@ -31,7 +31,8 @@ class Question(Base):
     user = relationship("User", backref="question_users")
     modify_date = Column(DateTime, nullable=True)
     voter = relationship('User', secondary=question_voter, backref='question_voters')
-
+    category_id = Column(Integer, ForeignKey("category.id"), nullable=True)
+    category = relationship("Category", backref="questions")
 
 class Answer(Base):
     __tablename__ = "answer"
