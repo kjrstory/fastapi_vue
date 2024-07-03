@@ -9,7 +9,7 @@ from domain.user import user_router
 app = FastAPI()
 
 origins = [
-    "http://192.168.100.12:8080",
+    "http://localhost:8080",
 ]
 
 app.add_middleware(
