@@ -80,4 +80,3 @@ class Category(Base):
     id = Column(Integer, primary_key=True)
     subject = Column(String, nullable=False)
 
-
