@@ -29,6 +29,7 @@
                </template>
             </div>
         </div>
+        <CommentQuestion :question_id="question_id"/>
     </div>
     <div class="mt-4">
       <router-link to="/" class="btn btn-secondary">
@@ -82,6 +83,7 @@
               </template>
             </div>
         </div>
+        <CommentAnswer :answer_id="answer.id"/>
     </div>
     <!-- 페이징처리 시작 -->
     <ul class="pagination justify-content-center">
@@ -122,6 +124,8 @@
 <script>
 import fastapi from '../lib/api';
 import ErrorComponent from "../components/ErrorComponent.vue"
+import CommentQuestion from "../components/CommentQuestion.vue"
+import CommentAnswer from "../components/CommentAnswer.vue"
 import { marked } from 'marked';
 import moment from 'moment';
 import 'moment/locale/ko';
@@ -130,7 +134,9 @@ moment.locale('ko')
 
 export default {
   components: {
-    ErrorComponent
+    ErrorComponent,
+    CommentQuestion,
+    CommentAnswer
   },  
   props: {
     question_id: {
@@ -140,7 +146,7 @@ export default {
   },
   data() {
     return {
-      question: { answers: [], voter:[], content: "" },
+      question: { answers: [], voter:[], content: ""},
       content: "",
       error: {detail:[]},
       answerList: [],

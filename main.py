@@ -5,6 +5,7 @@ from starlette.staticfiles import StaticFiles
 
 from domain.answer import answer_router
 from domain.question import question_router
+from domain.comment import comment_router
 from domain.user import user_router
 
 app = FastAPI()
@@ -23,6 +24,7 @@ app.add_middleware(
 
 app.include_router(question_router.router)
 app.include_router(answer_router.router)
+app.include_router(comment_router.router)
 app.include_router(user_router.router)
 
 app.mount("/css", StaticFiles(directory="frontend/dist/css"))
