@@ -70,4 +70,12 @@ class Comment(Base):
     user_id = Column(Integer, ForeignKey("user.id"), nullable=True)
     user = relationship("User", backref="comment_users")
     modify_date = Column(DateTime, nullable=True)
-    
+   
+
+class Category(Base):
+    __tablename__ = "category"
+
+    id = Column(Integer, primary_key=True)
+    subject = Column(String, nullable=False)
+
+
